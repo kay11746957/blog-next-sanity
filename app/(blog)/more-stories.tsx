@@ -1,3 +1,5 @@
+import type { MoreStoriesQueryResult } from "@/sanity.types";
+
 import Link from "next/link";
 
 import Avatar from "./avatar";
@@ -11,7 +13,10 @@ export default async function MoreStories(params: {
   skip: string;
   limit: number;
 }) {
-  const data = await sanityFetch({ query: moreStoriesQuery, params });
+  const data = (await sanityFetch({
+    query: moreStoriesQuery,
+    params,
+  })) as MoreStoriesQueryResult;
 
   return (
     <>
