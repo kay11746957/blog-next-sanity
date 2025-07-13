@@ -13,6 +13,23 @@ import {
   type PortableTextComponents,
   type PortableTextBlock,
 } from "next-sanity";
+import type { SanityImageSource } from "@sanity/image-url/lib/types/types";
+import urlBuilder from "@sanity/image-url";
+import { client } from "@/sanity/lib/client";
+import Image from "next/image";
+
+const SanityImage = ({ asset }: { asset: SanityImageSource }) => {
+  const image = urlBuilder(client).image(asset).auto("format").fit("max").url();
+  return (
+    <Image
+      className="w-full"
+      src={image}
+      alt={(asset as any).alt || ""}
+      width={1000}
+      height={1000}
+    />
+  );
+};
 
 export default function CustomPortableText({
   className,
@@ -22,6 +39,11 @@ export default function CustomPortableText({
   value: PortableTextBlock[];
 }) {
   const components: PortableTextComponents = {
+    types: {
+      image: ({ value }) => {
+        return <SanityImage {...value} />;
+      },
+    },
     block: {
       h5: ({ children }) => (
         <h5 className="mb-2 text-sm font-semibold">{children}</h5>
