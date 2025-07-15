@@ -28,7 +28,13 @@ export const moreStoriesQuery = defineQuery(`
 
 export const postQuery = defineQuery(`
   *[_type == "post" && slug.current == $slug] [0] {
-    content,
+    content[]{
+      ...,
+      _type == "image" => {
+        ...,
+        asset->
+      }
+    },
     ${postFields}
   }
 `);
