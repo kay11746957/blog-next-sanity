@@ -31,8 +31,7 @@ export const postQuery = defineQuery(`
     content[]{
       ...,
       _type == "image" => {
-        ...,
-        asset->
+        "asset": asset->
       }
     },
     ${postFields}
